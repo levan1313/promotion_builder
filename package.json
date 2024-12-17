@@ -1,0 +1,31 @@
+{
+  "name": "promotion_builder",
+  "description": "builder for building promotions",
+  "version": "0.0.14",
+  "type": "module",
+  "main": "dist/promotion_builder.cjs.js",
+  "module": "dist/promotion_builder.es.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "release": "npm version patch && npm publish --access public"
+  },
+  "devDependencies": {
+    "typescript": "~5.6.2",
+    "vite": "^6.0.1"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/promotion_builder.es.js",
+      "require": "./dist/promotion_builder.cjs.js"
+    }
+  },
+  "license": "MIT",
+  "author": "L.Kh.",
+  "dependencies": {
+    "vite-plugin-dts": "^4.3.0"
+  }
+}

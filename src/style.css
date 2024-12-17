@@ -1,0 +1,13 @@
+body{ 
+  margin:0;
+}
+
+#builder {
+  display: flex;
+  height: 100vh;
+}
+
+
+/* button:active {
+  cursor: grabbing;
+} */
