@@ -1,5 +1,5 @@
-import { EditorConfigI, LeaderBoardGroupI, LeaderBoardI } from "../../..";
-import { generateRandomId, rgbToHex } from "../../../utils/helpers";
+import { EditorConfigI, LeaderBoardI } from "../../..";
+import { openSettingsMenu } from "./uiHelpers";
 
 export class LeaderBoardManager {
   private iframeDocument: Document;
@@ -66,6 +66,7 @@ export class LeaderBoardManager {
     const leaderboardHeader = this.iframeDocument.createElement("div");
     leaderboardHeader.className = "leaderboard-header";
     leaderboardHeader.style.background = this.colors.base;
+    leaderboardHeader.style.color = this.colors.textColor;
     glowingBorder.appendChild(leaderboardHeader);
 
     const title = this.iframeDocument.createElement("h2");
@@ -160,7 +161,7 @@ private createFooter(lastEntry: Record<string, any>): HTMLElement {
   private handleMouseEvents(container: HTMLDivElement, id: string): void {
     container.addEventListener("mouseenter", () => {
       if (!this.iframeDocument.getElementById(`${id}-button`)) {
-        const button = this.createSettingsButton(container, id);
+        const button = this.createSettingsButton(id);
         container.appendChild(button);
       }
     });
@@ -173,7 +174,6 @@ private createFooter(lastEntry: Record<string, any>): HTMLElement {
 
   // Creates a settings button for leaderboard customization
   private createSettingsButton(
-    container: HTMLDivElement,
     id: string
   ): HTMLButtonElement {
     const button = this.iframeDocument.createElement("button");
@@ -209,265 +209,9 @@ private createFooter(lastEntry: Record<string, any>): HTMLElement {
     );
     return button;
   }
-
-  // Opens a settings menu for leaderboard customization
-  // private openSettingsMenu(container: HTMLDivElement, id: string): void {
-  //   const toolbar = document.getElementById("toolbar");
-  //   if (!toolbar) return;
-  
-  //   // Remove existing settings if any
-  //   document.getElementById("leaderboard-settings")?.remove();
-  
-  //   const settingsContainer = document.createElement("div");
-  //   settingsContainer.id = "leaderboard-settings";
-  //   settingsContainer.style.marginTop = "10px";
-
-  //   const settingsHeader = document.createElement("h3");
-  //   settingsHeader.innerText = "Leaderboard Settings";
-  //   settingsHeader.style.color = "white";
-
-  //   settingsContainer.appendChild(settingsHeader);
-  
-  //   // Inputs configuration
-  //   const inputsConfig = [
-  //     {
-  //       name: "base",
-  //       defaultValue: this.colors.base,
-  //       type: "color",
-  //     },
-  //     {
-  //       name: "secondary",
-  //       defaultValue: this.colors.secondary,
-  //       type: "color",
-  //     },
-  //     {
-  //       name: "main",
-  //       defaultValue: this.colors.main,
-  //       type: "color",
-  //     },
-  //     {
-  //       name: "textColor",
-  //       defaultValue: "#000000",
-  //       type: "color",
-  //     },
-  //   ];
-  
-  //   interface InputConfig {
-  //     name: string;
-  //     defaultValue: string;
-  //     type: string;
-  //   }
-  
-  //   // Container for inputs
-  //   const inputsContainer = document.createElement("div");
-  //   inputsContainer.style.display = "flex";
-  //   inputsContainer.style.flexDirection = "column";
-  
-  //   // Object to store input references
-  //   const inputElements: { [key: string]: HTMLInputElement } = {};
-  
-  //   // Function to create inputs
-  //   function inputsDrawer(inputsConfig: InputConfig[]) {
-  //     inputsConfig.forEach((inputConfig) => {
-  //       const label = document.createElement("label");
-  //       label.innerText = inputConfig.name;
-  //       label.style.marginTop = "5px";
-  //       label.style.color = "white";
-
-  //       const input = document.createElement("input");
-  //       input.type = inputConfig.type;
-  //       input.value = inputConfig.defaultValue;
-  
-  //       // Append label and input to the container
-  //       inputsContainer.appendChild(label);
-  //       inputsContainer.appendChild(input);
-  
-  //       // Store reference to the input element
-  //       inputElements[inputConfig.name] = input;
-  //     });
-  //   }
-  
-  //   // Call the function to create inputs
-  //   inputsDrawer(inputsConfig);
-  
-  //   // Leaderboard selection dropdown
-  //   const selectLeaderBoard = document.createElement("select");
-  //   Object.entries(this.leaderboardsData).forEach(([key, board]) => {
-  //     const option = document.createElement("option");
-  //     option.value = key;
-  //     option.textContent = board.title;
-  //     selectLeaderBoard.appendChild(option);
-  //   });
-  
-  //   // Apply changes button
-  //   const applyButton = document.createElement("button");
-  //   applyButton.textContent = "Apply Changes";
-  //   applyButton.style.marginTop = "10px";
-  
-  //   // Event listener for the apply button
-  //   applyButton.addEventListener("click", () => {
-  //     // Log the background color value
-  
-  //     // Log the values of all inputs
-  //     Object.entries(inputElements).forEach(([name, input]) => {
-  //       console.log(`${name}: ${input.value}`);
-  //     });
-  
-  //     // Existing functionality to reconstruct the leaderboard
-  //     this.leaderboardKey = selectLeaderBoard.value;
-  //     const colors = {
-  //       base: inputElements["base"].value,
-  //       secondary: inputElements["secondary"].value,
-  //       main: inputElements["main"].value,
-  //       textColor: inputElements["textColor"].value,
-  //     }
-
-  //     this.colors.base = inputElements["base"].value;
-  //     this.colors.secondary = inputElements["secondary"].value;
-  //     this.colors.main = inputElements["main"].value;
-  //     console.log("Colors:", inputElements["base"].value);
-  //     this.constructLeaderBoard({
-  //       id,
-  //       leaderboards: this.leaderboardsData,
-  //       backgroundColor: this.colors.base,
-  //       colors,
-  //     });
-  //   });
-  
-  //   // Append all elements to the settings container
-  //   settingsContainer.appendChild(selectLeaderBoard);
-  //   settingsContainer.appendChild(inputsContainer);
-  //   settingsContainer.appendChild(applyButton);
-  
-  //   // Append the settings container to the toolbar
-  //   toolbar.appendChild(settingsContainer);
-  // }
   
 }
 
 
 
-
-// Separate function for opening the settings menu
-export interface OpenSettingsMenuParams {
-  colors: Record<string, string>;
-  leaderboardsData: Record<string, { title: string }>;
-  leaderboardKey: string;
-  onApplyChanges: (selectedKey: string, newColors: Record<string, string>) => void;
-  id: string;
-}
-
-export function openSettingsMenu({
-  colors,
-  leaderboardsData,
-  leaderboardKey,
-  onApplyChanges,
-  id,
-}: OpenSettingsMenuParams): void {
-  const toolbar = document.getElementById("toolbar");
-  if (!toolbar) return;
-
-  // Remove existing settings if any
-  document.getElementById("leaderboard-settings")?.remove();
-
-  const settingsContainer = document.createElement("div");
-  settingsContainer.id = "leaderboard-settings";
-  settingsContainer.style.marginTop = "10px";
-
-  const settingsHeader = document.createElement("h3");
-  settingsHeader.innerText = "Leaderboard Settings";
-  settingsHeader.style.color = "white";
-
-  settingsContainer.appendChild(settingsHeader);
-
-  // Inputs configuration
-  interface InputConfig {
-    name: string;
-    defaultValue: string;
-    type: string;
-  }
-
-  const inputsConfig: InputConfig[] = [
-    {
-      name: "base",
-      defaultValue: colors.base,
-      type: "color",
-    },
-    {
-      name: "secondary",
-      defaultValue: colors.secondary,
-      type: "color",
-    },
-    {
-      name: "main",
-      defaultValue: colors.main,
-      type: "color",
-    },
-    {
-      name: "textColor",
-      defaultValue: "#000000",
-      type: "color",
-    },
-  ];
-
-  // Container for inputs
-  const inputsContainer = document.createElement("div");
-  inputsContainer.style.display = "flex";
-  inputsContainer.style.flexDirection = "column";
-
-  // Object to store input references
-  const inputElements: Record<string, HTMLInputElement> = {};
-
-  // Create inputs dynamically
-  inputsConfig.forEach((inputConfig) => {
-    const label = document.createElement("label");
-    label.innerText = inputConfig.name;
-    label.style.marginTop = "5px";
-    label.style.color = "white";
-
-    const input = document.createElement("input");
-    input.type = inputConfig.type;
-    input.value = inputConfig.defaultValue;
-
-    inputsContainer.appendChild(label);
-    inputsContainer.appendChild(input);
-
-    inputElements[inputConfig.name] = input;
-  });
-
-  // Leaderboard selection dropdown
-  const selectLeaderBoard = document.createElement("select");
-  Object.entries(leaderboardsData).forEach(([key, board]) => {
-    const option = document.createElement("option");
-    option.value = key;
-    option.textContent = board.title;
-    selectLeaderBoard.appendChild(option);
-  });
-  selectLeaderBoard.value = leaderboardKey;
-
-  // Apply changes button
-  const applyButton = document.createElement("button");
-  applyButton.textContent = "Apply Changes";
-  applyButton.style.marginTop = "10px";
-
-  applyButton.addEventListener("click", () => {
-    const newColors = {
-      base: inputElements["base"].value,
-      secondary: inputElements["secondary"].value,
-      main: inputElements["main"].value,
-      textColor: inputElements["textColor"].value,
-    };
-
-    const selectedKey = selectLeaderBoard.value;
-    onApplyChanges(selectedKey, newColors);
-  });
-
-  // Append elements to settings container
-  settingsContainer.appendChild(selectLeaderBoard);
-  settingsContainer.appendChild(inputsContainer);
-  settingsContainer.appendChild(applyButton);
-
-  // Append settings container to toolbar
-  toolbar.appendChild(settingsContainer);
-}
 

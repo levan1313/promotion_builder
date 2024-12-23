@@ -59,7 +59,7 @@ let editorConfig = {
       callBack:() => {}
     }
   },
-  colors: {base: '#00141E', secondary: '#062733',  main: "#189541"}
+  colors: {base: '#00141E', secondary: '#062733',  main: "#189541", textColor: "#000000"}
 }
 let app: HTMLElement | null = null; // Store the app element reference
 
@@ -67,8 +67,9 @@ let app: HTMLElement | null = null; // Store the app element reference
  * Initialize the package with shared data.
  * @param data Shared data to initialize the package.
  */
-export function initializePackage(data: SharedDataI): void {
+export function initializePackage({data,editorConfig}:{data: SharedDataI; editorConfig:EditorConfigI}): void {
   sharedData = { ...data };
+  editorConfig = { ...editorConfig };
 }
 
 /**
@@ -111,73 +112,73 @@ export function renderApp(): void {
 
 // Standalone development mode
 if (import.meta.env.MODE === "development") {
-
-  initializePackage({
-    user: "Standalone User",
-    buttonLabel: "Development Mode Button",
-    leaderBoards: {
-      "0": {
-        title: "First Leaderboard 12",
-        entries: [
-          {
-            id: 0,
-            playerId: 1,
-            userName: "test",
-            segment: null,
-            place: 1,
-            score: 1,
-            prizeType: "gold",
-            prizeValue: 1000,
-          },
-          {
-            id: 1,
-            playerId: 2,
-            userName: "player2",
-            segment: null,
-            place: 2,
-            score: 950,
-            prizeType: "silver",
-            prizeValue: 750,
-          },
-        ],
-      },
-      "1": {
-        title: "Second Leaderboard 12",
-        entries: [
-          {
-            id: 2,
-            playerId: 3,
-            userName: "player3",
-            segment: "A",
-            place: 3,
-            score: 900,
-            prizeType: "bronze",
-            prizeValue: 500,
-          },
-          {
-            id: 3,
-            playerId: 4,
-            userName: "player4",
-            segment: "B",
-            place: 4,
-            score: 850,
-            prizeType: "gold",
-            prizeValue: 1000,
-          },
-          {
-            id: 4,
-            playerId: 5,
-            userName: "player5",
-            segment: "C",
-            place: 5,
-            score: 800,
-            prizeType: "silver",
-            prizeValue: 750,
-          },
-        ],
-      },
+const data = {
+  user: "Standalone User",
+  buttonLabel: "Development Mode Button",
+  leaderBoards: {
+    "0": {
+      title: "First Leaderboard 12",
+      entries: [
+        {
+          id: 0,
+          playerId: 1,
+          userName: "test",
+          segment: null,
+          place: 1,
+          score: 1,
+          prizeType: "gold",
+          prizeValue: 1000,
+        },
+        {
+          id: 1,
+          playerId: 2,
+          userName: "player2",
+          segment: null,
+          place: 2,
+          score: 950,
+          prizeType: "silver",
+          prizeValue: 750,
+        },
+      ],
     },
-  });
+    "1": {
+      title: "Second Leaderboard 12",
+      entries: [
+        {
+          id: 2,
+          playerId: 3,
+          userName: "player3",
+          segment: "A",
+          place: 3,
+          score: 900,
+          prizeType: "bronze",
+          prizeValue: 500,
+        },
+        {
+          id: 3,
+          playerId: 4,
+          userName: "player4",
+          segment: "B",
+          place: 4,
+          score: 850,
+          prizeType: "gold",
+          prizeValue: 1000,
+        },
+        {
+          id: 4,
+          playerId: 5,
+          userName: "player5",
+          segment: "C",
+          place: 5,
+          score: 800,
+          prizeType: "silver",
+          prizeValue: 750,
+        },
+      ],
+    },
+  },
+}
+  initializePackage({data, editorConfig});
 
   renderApp();
 }
