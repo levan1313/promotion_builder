@@ -35,7 +35,6 @@ export interface SharedDataI {
 }
 
 export interface EditorConfigI {
-  containerId?: string;
   toolbar: {
     exportButton: {
       callBack:() => void;
@@ -53,7 +52,6 @@ let sharedData: SharedDataI = {
 // default editor config data
 
 let editorConfig = {
-  containerId: "",
   toolbar: {
     exportButton: {
       callBack:() => {}
@@ -88,9 +86,9 @@ export function useSharedData(): SharedDataI {
 /**
  * Render the package UI inside the app container.
  */
-export function renderBuilder(): void {
+export function renderBuilder(ref?: { current: HTMLElement | null }): void {
   if (!app) {
-    // Ensure the `app` element is created only once
+    // Create the `app` element only once
     app = document.createElement("div");
     app.id = "builder";
     app.style.display = "flex";
@@ -104,16 +102,17 @@ export function renderBuilder(): void {
     // Create and append the toolbar to the app
     const toolbar = createToolbar({ view, sharedData, editorConfig });
     app.appendChild(toolbar);
-    if(editorConfig.containerId){
-      const container = document.getElementById(editorConfig.containerId);
-      if (container) {
-        container.appendChild(app);
-      }
-      console.log("if");
-    } else {
-      console.log("else", app);
-      document.body.appendChild(app);
-    }
+  }
+
+  // Determine the container to append to
+  const container = ref?.current ?? document.body;
+
+  // Append `app` to the container only if it's not already there
+  if (!container.contains(app)) {
+    container.appendChild(app);
+    console.log(`Appended to ${ref ? "ref container" : "document body"}`);
+  } else {
+    console.log("App already exists in the DOM");
   }
 }
 
