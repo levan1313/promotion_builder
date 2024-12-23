@@ -1,10 +1,11 @@
-import { SharedDataI } from "..";
+import { EditorConfigI, SharedDataI } from "..";
 import { createBanner } from "./elements/Banner";
 import { createButton } from "./elements/Button";
 import { createExportButton } from "./elements/ExportButton";
-import { LeaderBoardManager } from "./elements/LeaderBoard";
+import { LeaderBoardManager } from "./elements/LeaderBoard/LeaderBoard";
+import { createLeaderBoardButton } from "./elements/LeaderBoard/uiHelpers";
 
-export function createToolbar({view, sharedData}:{view: HTMLIFrameElement; sharedData: SharedDataI}): HTMLElement {
+export function createToolbar({view, sharedData, editorConfig}:{view: HTMLIFrameElement; sharedData: SharedDataI, editorConfig: EditorConfigI}): HTMLElement {
     // Create the toolbar container
     const toolbar = document.createElement('div');
     toolbar.id = "toolbar";
@@ -15,12 +16,12 @@ export function createToolbar({view, sharedData}:{view: HTMLIFrameElement; share
     // Create the draggable buttons
 
     const button = createButton(sharedData);
-    const logButton = createExportButton(view);
+    const logButton = createExportButton(view, editorConfig.toolbar.exportButton.callBack);
     const banner = createBanner();
 
-    const leaderboardManager = new LeaderBoardManager(document, sharedData.leaderBoards);
+    const leaderboardManager = new LeaderBoardManager(document, sharedData.leaderBoards, editorConfig);
 
-    const leaderBoardButton = leaderboardManager.createLeaderBoardButton();
+    const leaderBoardButton = createLeaderBoardButton({iframeDocument: document, leaderboardsData: sharedData.leaderBoards});
 
     console.log(sharedData.leaderBoards)
     // Append buttons to the toolbar

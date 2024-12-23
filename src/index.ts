@@ -4,13 +4,15 @@ import { createView } from "./components/view/View";
 
 // Define the interface for a single leaderboard entry
 interface LeaderBoardEntryI {
-  leaderboardRecordId: number;
+  id: number;
   playerId: number;
-  playerUsername: string;
-  amount: number;
-  placement: number;
-  coinId: string;
-  prizeAmount: number;
+  userName: string;
+  segment: string | null;
+  place: number;
+  score: number;
+  prizeType: string;
+  prizeValue: number;
+
 }
 
 // Define the interface for a leaderboard group with title and entries
@@ -32,12 +34,33 @@ export interface SharedDataI {
   leaderBoards: LeaderBoardI;
 }
 
+export interface EditorConfigI {
+  containerId?: string;
+  toolbar: {
+    exportButton: {
+      callBack:() => void;
+    };
+  };
+  colors?: Record<string, string>;
+}
+// default sharedData config
 let sharedData: SharedDataI = {
   user: "",
   buttonLabel: "",
   leaderBoards: {}, // Adjusted to match the grouped leaderboard structure
 }; // Store the shared data globally within the package
 
+// default editor config data
+
+let editorConfig = {
+  containerId: "builder",
+  toolbar: {
+    exportButton: {
+      callBack:() => {}
+    }
+  },
+  colors: {base: '#00141E', secondary: '#062733',  main: "#189541"}
+}
 let app: HTMLElement | null = null; // Store the app element reference
 
 /**
@@ -67,7 +90,8 @@ export function useSharedData(): SharedDataI {
 export function renderApp(): void {
   if (!app) {
     // Ensure the `app` element is created only once
-    app = document.createElement("div");
+    app = document.getElementById(editorConfig.containerId || "builder");
+    if(!app) return;
     app.id = "builder";
     app.style.display = "flex";
     app.style.height = "100vh";
@@ -78,7 +102,7 @@ export function renderApp(): void {
     app.appendChild(view);
 
     // Create and append the toolbar to the app
-    const toolbar = createToolbar({ view, sharedData });
+    const toolbar = createToolbar({ view, sharedData, editorConfig });
     app.appendChild(toolbar);
 
     document.body.appendChild(app);
@@ -93,48 +117,62 @@ if (import.meta.env.MODE === "development") {
     buttonLabel: "Development Mode Button",
     leaderBoards: {
       "0": {
-        title: "First Leaderboard",
+        title: "First Leaderboard 12",
         entries: [
           {
-            leaderboardRecordId: 1,
-            playerId: 6076,
-            playerUsername: "player_1",
-            amount: 7,
-            placement: 19,
-            coinId: "coin_1",
-            prizeAmount: 603.97,
+            id: 0,
+            playerId: 1,
+            userName: "test",
+            segment: null,
+            place: 1,
+            score: 1,
+            prizeType: "gold",
+            prizeValue: 1000,
           },
           {
-            leaderboardRecordId: 2,
-            playerId: 8542,
-            playerUsername: "player_2",
-            amount: 5,
-            placement: 15,
-            coinId: "coin_2",
-            prizeAmount: 300.0,
+            id: 1,
+            playerId: 2,
+            userName: "player2",
+            segment: null,
+            place: 2,
+            score: 950,
+            prizeType: "silver",
+            prizeValue: 750,
           },
         ],
       },
       "1": {
-        title: "Second Leaderboard",
+        title: "Second Leaderboard 12",
         entries: [
           {
-            leaderboardRecordId: 3,
-            playerId: 9432,
-            playerUsername: "player_3",
-            amount: 8,
-            placement: 5,
-            coinId: "coin_3",
-            prizeAmount: 1200.5,
+            id: 2,
+            playerId: 3,
+            userName: "player3",
+            segment: "A",
+            place: 3,
+            score: 900,
+            prizeType: "bronze",
+            prizeValue: 500,
           },
           {
-            leaderboardRecordId: 4,
-            playerId: 1211,
-            playerUsername: "player_4",
-            amount: 4,
-            placement: 20,
-            coinId: "coin_4",
-            prizeAmount: 450.75,
+            id: 3,
+            playerId: 4,
+            userName: "player4",
+            segment: "B",
+            place: 4,
+            score: 850,
+            prizeType: "gold",
+            prizeValue: 1000,
+          },
+          {
+            id: 4,
+            playerId: 5,
+            userName: "player5",
+            segment: "C",
+            place: 5,
+            score: 800,
+            prizeType: "silver",
+            prizeValue: 750,
           },
         ],
       },

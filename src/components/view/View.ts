@@ -1,7 +1,8 @@
 import { constructElement } from "./elementConstructors";
+import { leaderboard_01 } from "../elements/styles/leaderboards.style";
 
 export function createView(): HTMLIFrameElement {
-
+const lb_01 = leaderboard_01;
   // Define the HTML template as a string
   const htmlTemplate = `
     <!DOCTYPE html>
@@ -11,15 +12,30 @@ export function createView(): HTMLIFrameElement {
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Draggable Button</title>
       <style>
-        body {
-          font-family: Arial, sans-serif;
-          margin: 0;
-          padding: 20px;
-          box-sizing: border-box;
-        }
-        #view-id div {
-          margin: 10px 0;
-        }
+              @font-face {
+      font-family: 'Satoshi';
+      src: url('https://fonts.cdnfonts.com/s/84480/Satoshi-Regular.woff2') format('woff2'),
+          url('https://fonts.cdnfonts.com/s/84480/Satoshi-Regular.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'Satoshi';
+      src: url('https://fonts.cdnfonts.com/s/84480/Satoshi-Bold.woff2') format('woff2'),
+          url('https://fonts.cdnfonts.com/s/84480/Satoshi-Bold.woff') format('woff');
+      font-weight: bold;
+      font-style: normal;
+    }
+
+    /* General reset */
+    * {
+      font-family: 'Satoshi', sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+      ${leaderboard_01}
       </style>
     </head>
     <body>

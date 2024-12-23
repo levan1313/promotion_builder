@@ -1,4 +1,4 @@
-import { LeaderBoardManager } from "../elements/LeaderBoard";
+import { LeaderBoardManager } from "../elements/LeaderBoard/LeaderBoard";
 
 // Utility function to create a button
 export function constructElement(rawData: string, iframeiframeDocument: Document) {
