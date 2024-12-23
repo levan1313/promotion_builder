@@ -53,7 +53,7 @@ let sharedData: SharedDataI = {
 // default editor config data
 
 let editorConfig = {
-  containerId: "builder",
+  containerId: "",
   toolbar: {
     exportButton: {
       callBack:() => {}
@@ -67,7 +67,7 @@ let app: HTMLElement | null = null; // Store the app element reference
  * Initialize the package with shared data.
  * @param data Shared data to initialize the package.
  */
-export function initializePackage({data,editorConfig}:{data: SharedDataI; editorConfig:EditorConfigI}): void {
+export function initializeBuilderData({data,editorConfig}:{data: SharedDataI; editorConfig:EditorConfigI}): void {
   sharedData = { ...data };
   editorConfig = { ...editorConfig };
 }
@@ -79,7 +79,7 @@ export function initializePackage({data,editorConfig}:{data: SharedDataI; editor
 export function useSharedData(): SharedDataI {
   if (!sharedData) {
     throw new Error(
-      "Package not initialized. Call initializePackage(data) first."
+      "Package not initialized. Call initializeBuilderData(data) first."
     );
   }
   return sharedData;
@@ -88,11 +88,10 @@ export function useSharedData(): SharedDataI {
 /**
  * Render the package UI inside the app container.
  */
-export function renderApp(): void {
+export function renderBuilder(): void {
   if (!app) {
     // Ensure the `app` element is created only once
-    app = document.getElementById(editorConfig.containerId || "builder");
-    if(!app) return;
+    app = document.createElement("div");
     app.id = "builder";
     app.style.display = "flex";
     app.style.height = "100vh";
@@ -105,8 +104,16 @@ export function renderApp(): void {
     // Create and append the toolbar to the app
     const toolbar = createToolbar({ view, sharedData, editorConfig });
     app.appendChild(toolbar);
-
-    document.body.appendChild(app);
+    if(editorConfig.containerId){
+      const container = document.getElementById(editorConfig.containerId);
+      if (container) {
+        container.appendChild(app);
+      }
+      console.log("if");
+    } else {
+      console.log("else", app);
+      document.body.appendChild(app);
+    }
   }
 }
 
@@ -178,13 +185,13 @@ const data = {
     },
   },
 }
-  initializePackage({data, editorConfig});
+  initializeBuilderData({data, editorConfig});
 
-  renderApp();
+  renderBuilder();
 }
 
 export default {
-  initializePackage,
+  initializeBuilderData,
   useSharedData,
-  renderApp,
+  renderBuilder,
 };
