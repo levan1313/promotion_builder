@@ -1,7 +1,7 @@
 {
   "name": "promotion_builder",
   "description": "builder for building promotions",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "type": "module",
   "main": "dist/promotion_builder.cjs.js",
   "module": "dist/promotion_builder.es.js",
