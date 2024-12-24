@@ -1,3 +1,4 @@
+import { BannerManager } from "../elements/Banner/Banner";
 import { LeaderBoardManager } from "../elements/LeaderBoard/LeaderBoard";
 
 // Utility function to create a button
@@ -9,11 +10,12 @@ export function constructElement(rawData: string, iframeiframeDocument: Document
     const data = JSON.parse(rawData);
     console.log("data", data)
     const LeaderBoard = new LeaderBoardManager(iframeiframeDocument, data.leaderboards);
+    const Banner = new BannerManager(iframeiframeDocument);
     // Handle different types of elements
     if (data.type === "button") {
       constructButton({ iframeDocument: iframeiframeDocument, id: data.id, label: data.label });
     } else if (data.type === "banner") {
-      constructBanner({ iframeDocument: iframeiframeDocument, id: data.id, src: data.src });
+      Banner.constructBanner();
     } else if (data.type === "leaderboard") {
       LeaderBoard.constructLeaderBoard({id: data.id, leaderboards:data.leaderboards });
     } else {
@@ -57,15 +59,15 @@ interface ConstructBannerI {
   src: string;
 }
 
-export function constructBanner({ iframeDocument, id, src }: ConstructBannerI) {
-  const image = iframeDocument.createElement("img");
-  image.src = src;
-  image.alt = "Dropped Banner";
-  image.style.width = "100%";
-  image.style.height = "200px";
-  image.style.objectFit = "cover";
-  image.id = id;
+// export function constructBanner({ iframeDocument, id, src }: ConstructBannerI) {
+//   const image = iframeDocument.createElement("img");
+//   image.src = src;
+//   image.alt = "Dropped Banner";
+//   image.style.width = "100%";
+//   image.style.height = "200px";
+//   image.style.objectFit = "cover";
+//   image.id = id;
 
-  iframeDocument.body.appendChild(image);
-}
+//   iframeDocument.body.appendChild(image);
+// }
 

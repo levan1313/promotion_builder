@@ -31,7 +31,7 @@ export class LeaderBoardManager {
 
     // Create leaderboard components
     const container = this.createContainer(id);
-    const heading = this.createHeading(title);
+    const heading = this.createHeading(title, leaderboards[this.leaderboardKey].iconUrl);
     const table = this.createTable(entries);
 
     // Append components to container
@@ -59,7 +59,7 @@ export class LeaderBoardManager {
   }
 
   // Creates the leaderboard heading
-  private createHeading(titleText: string): HTMLElement {
+  private createHeading(titleText: string, imgUrl: string): HTMLElement {
     const glowingBorder = this.iframeDocument.createElement("div");
     glowingBorder.className = "glowing-border";
 
@@ -74,7 +74,7 @@ export class LeaderBoardManager {
 
     const icon = this.iframeDocument.createElement("img");
     icon.className = "medal-icon";
-    icon.src = "./images/leaderboard/lb_header_icon.png";
+    icon.src = imgUrl;
     icon.alt = "1st";
 
     title.appendChild(icon);

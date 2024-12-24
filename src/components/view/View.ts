@@ -1,5 +1,5 @@
 import { constructElement } from "./elementConstructors";
-import { leaderboard_01 } from "../elements/styles/leaderboards.style";
+import { leaderboard_01 } from "../elements/LeaderBoard/leaderboards.style";
 
 export function createView(): HTMLIFrameElement {
 const lb_01 = leaderboard_01;

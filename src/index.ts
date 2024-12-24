@@ -18,6 +18,7 @@ interface LeaderBoardEntryI {
 // Define the interface for a leaderboard group with title and entries
 export interface LeaderBoardGroupI {
   title: string;
+  iconUrl: string;
   entries: LeaderBoardEntryI[];
 }
 
@@ -51,10 +52,10 @@ let sharedData: SharedDataI = {
 
 // default editor config data
 
-let editorConfig = {
+let editorConfig: EditorConfigI = {
   toolbar: {
     exportButton: {
-      callBack:() => {}
+      callBack:() => {console.log("passed callback")}
     }
   },
   colors: {base: '#00141E', secondary: '#062733',  main: "#189541", textColor: "#000000"}
@@ -65,9 +66,9 @@ let app: HTMLElement | null = null; // Store the app element reference
  * Initialize the package with shared data.
  * @param data Shared data to initialize the package.
  */
-export function initializeBuilderData({data,editorConfig}:{data: SharedDataI; editorConfig:EditorConfigI}): void {
+export function initializeBuilderData({data, editorConfig: newEditorConfig}:{data: SharedDataI; editorConfig:EditorConfigI}): void {
   sharedData = { ...data };
-  editorConfig = { ...editorConfig };
+  editorConfig = { ...newEditorConfig }; // Update the global `editorConfig` variable
 }
 
 /**
@@ -124,6 +125,7 @@ const data = {
   leaderBoards: {
     "0": {
       title: "First Leaderboard 12",
+      iconUrl: "./images/leaderboard/lb_header_icon.png",
       entries: [
         {
           id: 0,
@@ -149,6 +151,7 @@ const data = {
     },
     "1": {
       title: "Second Leaderboard 12",
+      iconUrl: "./images/leaderboard/lb_header_icon.png",
       entries: [
         {
           id: 2,

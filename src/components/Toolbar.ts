@@ -1,5 +1,5 @@
 import { EditorConfigI, SharedDataI } from "..";
-import { createBanner } from "./elements/Banner";
+import { createBannerButton } from "./elements/Banner/Banner";
 import { createButton } from "./elements/Button";
 import { createExportButton } from "./elements/ExportButton";
 import { LeaderBoardManager } from "./elements/LeaderBoard/LeaderBoard";
@@ -12,12 +12,14 @@ export function createToolbar({view, sharedData, editorConfig}:{view: HTMLIFrame
     toolbar.style.width = '200px';
     toolbar.style.background = "#c42523"
     toolbar.style.padding = "10px";
-    toolbar.style.boxShadow = "2px 0 5px rgba(0, 0, 0, 0.1)"
+    toolbar.style.boxShadow = "2px 0 5px rgba(0, 0, 0, 0.1)";
+    toolbar.style.display = "flex";
+    toolbar.style.flexDirection = "column";
     // Create the draggable buttons
 
     const button = createButton(sharedData);
     const logButton = createExportButton(view, editorConfig.toolbar.exportButton.callBack);
-    const banner = createBanner();
+    const banner = createBannerButton();
 
     const leaderboardManager = new LeaderBoardManager(document, sharedData.leaderBoards, editorConfig);
 
@@ -27,8 +29,8 @@ export function createToolbar({view, sharedData, editorConfig}:{view: HTMLIFrame
     // Append buttons to the toolbar
     toolbar.appendChild(button);
     toolbar.appendChild(banner);
-    toolbar.appendChild(logButton);
     toolbar.appendChild(leaderBoardButton);
+    toolbar.appendChild(logButton);
 
     return toolbar;
   }

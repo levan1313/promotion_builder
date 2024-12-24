@@ -10,8 +10,8 @@ export function createExportButton(iframe: HTMLIFrameElement, callBack: (doc:Doc
   
       if (iframeDocument) {
         // Log the entire HTML content
-        callBack(iframeDocument)
-        console.log(iframeDocument)
+        callBack(iframeDocument);
+        console.log(iframeDocument);
       } else {
         console.error('Failed to access iframe document. Ensure the iframe is same-origin.');
       }
