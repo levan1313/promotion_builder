@@ -38,7 +38,7 @@ export interface SharedDataI {
 export interface EditorConfigI {
   toolbar: {
     exportButton: {
-      callBack:() => void;
+      callBack:(e:Document) => void;
     };
   };
   colors?: Record<string, string>;
