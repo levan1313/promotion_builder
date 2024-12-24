@@ -68,7 +68,7 @@ let app: HTMLElement | null = null; // Store the app element reference
  */
 export function initializeBuilderData({data, editorConfig: newEditorConfig}:{data: SharedDataI; editorConfig:EditorConfigI}): void {
   sharedData = { ...data };
-  editorConfig = { ...newEditorConfig }; // Update the global `editorConfig` variable
+  editorConfig = { ...newEditorConfig }; // Correctly updates the global `editorConfig` variable
 }
 
 /**
