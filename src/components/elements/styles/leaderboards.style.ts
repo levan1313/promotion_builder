@@ -14,7 +14,6 @@ export const leaderboard_01 = `
   text-align: center;
   border-radius: 8px;
   background: linear-gradient(to bottom, #06273300 20%, #189540 100%);
-  color: white;
   font-size: 1.5rem;
   font-weight: bold;
   width: 100%;
@@ -29,9 +28,7 @@ export const leaderboard_01 = `
   /* background: url(./images/gradient.png); */
   /* background: linear-gradient(to top, rgba(24, 149, 65, 0.18), rgba(6, 39, 51, 0)); */
   padding: 28px 0;
-  color: #ffb900;
   border-radius: 8px;
-  color:white;
 }
 
 .leaderboard-header__title {
@@ -54,20 +51,17 @@ export const leaderboard_01 = `
 }
 
 .leaderboard-table__header-cell {
-  color: white;
   padding: 20px 27px;
   font-size: 20px;
 }
 
 .leaderboard-table__row {
-  background-color: #00141E;
   border-radius: 8px;
 }
 
 .leaderboard-table__cell {
   padding: 15px;
   font-size: 20px;
-  color: white;
 }
 
 .leaderboard-table__cell img {
@@ -106,8 +100,6 @@ thead {
 .sticky-footer {
   position: sticky;
   bottom: 0;
-  background-color: #0d7b3e;
-  color: white;
   font-weight: bold;
   text-align: center;
 }

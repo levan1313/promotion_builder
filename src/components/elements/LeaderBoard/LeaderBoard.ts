@@ -5,7 +5,7 @@ export class LeaderBoardManager {
   private iframeDocument: Document;
   public leaderboardKey: string;
   public leaderboardsData: LeaderBoardI;
-  public colors: Record<string, string> = {base: '#00141E', secondary: '#062733',  main: "#189541"};
+  public colors: Record<string, string> = {base: '#00141E', secondary: '#062733',  main: "#189541", textColor: "#ffffff"};
 
   constructor(iframeDocument: Document, leaderboardsData: LeaderBoardI, editorConfig?: EditorConfigI) {
     this.iframeDocument = iframeDocument;
@@ -88,7 +88,8 @@ export class LeaderBoardManager {
 private createTable(entries: Record<string, any>[]): HTMLDivElement {
   const wrapper = this.iframeDocument.createElement("div");
   wrapper.className = "leaderboard-table-wrapper";
-
+  const wrapperTextColor = this.colors.textColor;
+  wrapper.style.color = wrapperTextColor;
   const table = this.iframeDocument.createElement("table");
   table.className = "leaderboard-table";
   wrapper.appendChild(table);
@@ -96,6 +97,7 @@ private createTable(entries: Record<string, any>[]): HTMLDivElement {
   // Add table headers
   const headers = ["Place", "Player", "Points", "Prize"];
   const thead = this.iframeDocument.createElement("thead");
+  thead.style.color = this.colors.textColor + "80";
   const headerRow = this.iframeDocument.createElement("tr");
 
   headers.forEach((header) => {
@@ -191,7 +193,9 @@ private createFooter(lastEntry: Record<string, any>): HTMLElement {
       cursor: "pointer",
     });
 
-    button.addEventListener("click", () =>
+    button.addEventListener("click", () =>{
+
+      console.log(this.colors);
       openSettingsMenu({
       colors: this.colors,
       leaderboardsData: this.leaderboardsData,
@@ -206,6 +210,7 @@ private createFooter(lastEntry: Record<string, any>): HTMLElement {
       },
       id,
       })
+    }
     );
     return button;
   }

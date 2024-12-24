@@ -45,6 +45,7 @@ export function createLeaderBoardButton(
   ): void {
     container.addEventListener("mouseenter", () => {
       if (!iframeDocument.getElementById(`${id}-button`)) {
+        console.log("entered")
         const button = createSettingsButton(container, id);
         container.appendChild(button);
       }
@@ -77,7 +78,7 @@ export function createLeaderBoardButton(
       cursor: "pointer",
     });
   
-    button.addEventListener("click", () => openSettingsMenu(container, id));
+    button.addEventListener("click", () => {openSettingsMenu(container, id); console.log("click")});
     return button;
   }
   
@@ -139,7 +140,7 @@ export function openSettingsMenu({
     },
     {
       name: "textColor",
-      defaultValue: "#000000",
+      defaultValue: colors.textColor,
       type: "select",
       options: [
         { value: "#000000", label: "Black" },
@@ -167,12 +168,14 @@ export function openSettingsMenu({
 
     if (inputConfig.type === "select" && inputConfig.options) {
       input = document.createElement("select");
+      
       inputConfig.options.forEach((option) => {
         const optionElement = document.createElement("option");
         optionElement.value = option.value;
         optionElement.textContent = option.label;
         input.appendChild(optionElement);
       });
+      console.log(inputConfig.defaultValue)
       input.value = inputConfig.defaultValue;
     } else {
       input = document.createElement("input");
