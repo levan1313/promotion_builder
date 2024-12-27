@@ -15,7 +15,7 @@ export function constructElement(rawData: string, iframeiframeDocument: Document
     if (data.type === "button") {
       constructButton({ iframeDocument: iframeiframeDocument, id: data.id, label: data.label });
     } else if (data.type === "banner") {
-      Banner.constructBanner();
+      Banner.constructBanner({src: data.src, id: data.id});
     } else if (data.type === "leaderboard") {
       LeaderBoard.constructLeaderBoard({id: data.id, leaderboards:data.leaderboards });
     } else {

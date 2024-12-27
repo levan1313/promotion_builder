@@ -7,6 +7,7 @@ export function createExportButton(iframe: HTMLIFrameElement, callBack: (doc: Do
     const iframeDocument = iframe.contentDocument;
     if (iframeDocument) {
       // Execute the callback with the iframe document
+      console.log(iframeDocument.documentElement.outerHTML)
       callBack(iframeDocument);
     } else {
       console.error('Failed to access iframe document. Ensure the iframe is same-origin.');

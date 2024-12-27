@@ -1,7 +1,8 @@
 import { constructElement } from "./elementConstructors";
 import { leaderboard_01 } from "../elements/LeaderBoard/leaderboards.style";
 
-export function createView(): HTMLIFrameElement {
+export function createView({stringifiedBody = '<body></body>'}:{stringifiedBody?:string}): HTMLIFrameElement {
+
 const lb_01 = leaderboard_01;
   // Define the HTML template as a string
   const htmlTemplate = `
@@ -38,8 +39,7 @@ const lb_01 = leaderboard_01;
       ${leaderboard_01}
       </style>
     </head>
-    <body>
-    </body>
+    ${stringifiedBody}
     </html>
   `;
 

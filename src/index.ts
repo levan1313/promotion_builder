@@ -30,6 +30,7 @@ export interface LeaderBoardI {
 
 // Shared data structure, updated to match the adjusted leaderboard structure
 export interface SharedDataI {
+  body: string;
   user: string;
   buttonLabel: string;
   leaderBoards: LeaderBoardI;
@@ -47,7 +48,8 @@ export interface EditorConfigI {
 let sharedData: SharedDataI = {
   user: "",
   buttonLabel: "",
-  leaderBoards: {}, // Adjusted to match the grouped leaderboard structure
+  leaderBoards: {},
+  body: "", 
 }; // Store the shared data globally within the package
 
 // default editor config data
@@ -97,7 +99,7 @@ export function renderBuilder(ref?: { current: HTMLElement | null }): void {
     app.style.width = "100%";
 
     // Create and append the view (iframe) to the app
-    const view = createView();
+    const view = createView({stringifiedBody: sharedData.body});
     app.appendChild(view);
 
     // Create and append the toolbar to the app
@@ -122,9 +124,10 @@ if (import.meta.env.MODE === "development") {
 const data = {
   user: "Standalone User",
   buttonLabel: "Development Mode Button",
+  body: ``,
   leaderBoards: {
     "0": {
-      title: "First Leaderboard 12",
+      title: "weekly leaderboard",
       iconUrl: "./images/leaderboard/lb_header_icon.png",
       entries: [
         {
@@ -147,10 +150,100 @@ const data = {
           prizeType: "silver",
           prizeValue: 750,
         },
+        {
+          id: 1,
+          playerId: 2,
+          userName: "player2",
+          segment: null,
+          place: 2,
+          score: 950,
+          prizeType: "silver",
+          prizeValue: 750,
+        },
+        {
+          id: 1,
+          playerId: 2,
+          userName: "player2",
+          segment: null,
+          place: 2,
+          score: 950,
+          prizeType: "silver",
+          prizeValue: 750,
+        },
+        {
+          id: 1,
+          playerId: 2,
+          userName: "player2",
+          segment: null,
+          place: 2,
+          score: 950,
+          prizeType: "silver",
+          prizeValue: 750,
+        },
+        {
+          id: 1,
+          playerId: 2,
+          userName: "player2",
+          segment: null,
+          place: 2,
+          score: 950,
+          prizeType: "silver",
+          prizeValue: 750,
+        },
+        {
+          id: 1,
+          playerId: 2,
+          userName: "player2",
+          segment: null,
+          place: 2,
+          score: 950,
+          prizeType: "silver",
+          prizeValue: 750,
+        },
+        {
+          id: 1,
+          playerId: 2,
+          userName: "player2",
+          segment: null,
+          place: 2,
+          score: 950,
+          prizeType: "silver",
+          prizeValue: 750,
+        },
+        {
+          id: 1,
+          playerId: 2,
+          userName: "player2",
+          segment: null,
+          place: 2,
+          score: 950,
+          prizeType: "silver",
+          prizeValue: 750,
+        },
+        {
+          id: 1,
+          playerId: 2,
+          userName: "player2",
+          segment: null,
+          place: 2,
+          score: 950,
+          prizeType: "silver",
+          prizeValue: 750,
+        },
+        {
+          id: 1,
+          playerId: 2,
+          userName: "player2",
+          segment: null,
+          place: 2,
+          score: 950,
+          prizeType: "silver",
+          prizeValue: 750,
+        },
       ],
     },
     "1": {
-      title: "Second Leaderboard 12",
+      title: "monthly Leaderboard",
       iconUrl: "./images/leaderboard/lb_header_icon.png",
       entries: [
         {

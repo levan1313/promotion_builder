@@ -1,5 +1,6 @@
 import { LeaderBoardI } from "../../..";
 import { generateRandomId, rgbToHex } from "../../../utils/helpers";
+import { styleComponentButton } from "../uiHelpers";
 
 interface createLeaderBoardButtonI {
     iframeDocument: Document;
@@ -16,6 +17,10 @@ export function createLeaderBoardButton(
     button.id = "drag-btn";
     button.draggable = true;
     button.textContent = "leaderboard";
+
+
+      // Add styles to the button
+      styleComponentButton(button);
 
     // Add dragstart event to pass leaderboard data
     button.addEventListener("dragstart", (event: DragEvent) => {

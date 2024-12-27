@@ -1,4 +1,4 @@
-export const leaderboard_01 = `
+export const leaderboard_01 =  (id:string) => `
 
 /* Leaderboard Container */
 .leaderboard-container {
@@ -6,6 +6,7 @@ export const leaderboard_01 = `
   max-width: 1273px;
   border-radius: 10px;
   overflow: hidden;
+  color: white;
 }
 
 /* Header Section */
@@ -109,16 +110,16 @@ thead {
 }
 
 /* Scrollbar Styles */
-::-webkit-scrollbar {
+.leaderboard-table-wrapper::-webkit-scrollbar {
   width: 8px;
 }
 
-::-webkit-scrollbar-thumb {
+.leaderboard-table-wrapper::-webkit-scrollbar-thumb {
   background: #ffffff20;
   border-radius: 10px;
 }
 
-::-webkit-scrollbar-thumb:hover {
+.leaderboard-table-wrapper::-webkit-scrollbar-thumb:hover {
   background: #189540;
 }
 `

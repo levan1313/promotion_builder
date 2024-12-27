@@ -15,7 +15,6 @@ export class LeaderBoardManager {
   }
   
 
-  // Builds the leaderboard UI in the iframe
   public constructLeaderBoard({
     id,
     leaderboards,
@@ -24,23 +23,66 @@ export class LeaderBoardManager {
     leaderboards: LeaderBoardI;
   }): void {
     const { title, entries } = leaderboards[this.leaderboardKey];
-
-    // Remove existing leaderboard container if any
-    const existingContainer = this.iframeDocument.getElementById(id);
-    if (existingContainer) existingContainer.remove();
-
-    // Create leaderboard components
-    const container = this.createContainer(id);
-    const heading = this.createHeading(title, leaderboards[this.leaderboardKey].iconUrl);
-    const table = this.createTable(entries);
-
-    // Append components to container
-    container.appendChild(heading);
-    container.appendChild(table);
-    this.iframeDocument.body.appendChild(container);
-
-    // Add mouse events for additional UI interactions
-    this.handleMouseEvents(container, id);
+  
+    // Check if the leaderboard container already exists
+    const container = this.iframeDocument.getElementById(id) as HTMLDivElement;
+  
+    if (container) {
+      // Update container background
+      container.style.backgroundColor = this.colors.base;
+      container.style.color = this.colors.textColor;
+      // Update header background and content
+      const heading = container.querySelector(".leaderboard-header") as HTMLDivElement;
+     
+      if (heading) {
+        heading.style.backgroundColor = this.colors.base;
+        heading.style.color = this.colors.textColor;
+  
+        // Update title text
+        const titleElement = heading.querySelector("h2") as HTMLElement;
+        if (titleElement) {
+          titleElement.textContent = title;
+        }
+  
+        // Update icon URL (ensure the icon is not lost)
+        const icon = heading.querySelector(".medal-icon") as HTMLImageElement;
+        if (icon) {
+          icon.src = leaderboards[this.leaderboardKey].iconUrl || icon.src;
+        } else {
+          // If the icon doesn't exist, create and append it
+          const newIcon = this.iframeDocument.createElement("img");
+          newIcon.className = "medal-icon";
+          newIcon.src = leaderboards[this.leaderboardKey].iconUrl;
+          newIcon.alt = "1st";
+          titleElement?.prepend(newIcon);
+        }
+      }
+  
+      // Update the first row background in the table
+      const firstRow = container.querySelector(".leaderboard-table__row") as HTMLTableRowElement;
+      if (firstRow) {
+        firstRow.style.backgroundColor = this.colors.secondary;
+      }
+  
+      // Update table content if necessary
+      const tableWrapper = container.querySelector(".leaderboard-table-wrapper");
+      if (tableWrapper) {
+        tableWrapper.replaceWith(this.createTable(entries));
+      }
+    } else {
+      // Create new leaderboard container and components if it doesn't exist
+      const newContainer = this.createContainer(id);
+      const heading = this.createHeading(title, leaderboards[this.leaderboardKey].iconUrl);
+      const table = this.createTable(entries);
+  
+      // Append components to the new container
+      newContainer.appendChild(heading);
+      newContainer.appendChild(table);
+      this.iframeDocument.body.appendChild(newContainer);
+  
+      // Add mouse events for additional UI interactions
+      this.handleMouseEvents(newContainer, id);
+    }
   }
 
   // Creates a container for the leaderboard
@@ -48,11 +90,12 @@ export class LeaderBoardManager {
     const container = this.iframeDocument.createElement("div");
     Object.assign(container.style, {
       width: "100%",
-      margin: "20px 0",
       position: "relative",
       backgroundColor: this.colors.base,
       borderRadius: "10px",
       padding: "10px",
+      maxWidth: "765px",
+      margin: "0 auto",
     });
     container.id = id;
     return container;
@@ -98,6 +141,7 @@ private createTable(entries: Record<string, any>[]): HTMLDivElement {
   const headers = ["Place", "Player", "Points", "Prize"];
   const thead = this.iframeDocument.createElement("thead");
   thead.style.color = this.colors.textColor + "80";
+  thead.style.backgroundColor = this.colors.base;
   const headerRow = this.iframeDocument.createElement("tr");
 
   headers.forEach((header) => {
@@ -115,6 +159,7 @@ private createTable(entries: Record<string, any>[]): HTMLDivElement {
   tbody.className = "leaderboard-rows";
   entries.forEach((entry, index) => {
     const row = this.iframeDocument.createElement("tr");
+    row.style.color = this.colors.textColor;
     row.className = "leaderboard-table__row";
     row.style.backgroundColor = this.colors.secondary;
 
