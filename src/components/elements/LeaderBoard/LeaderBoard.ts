@@ -225,7 +225,7 @@ private createFooter(lastEntry: Record<string, any>): HTMLElement {
   ): HTMLButtonElement {
     const button = this.iframeDocument.createElement("button");
     button.id = `${id}-button`;
-    button.textContent = "settings";
+    button.textContent = "Settings";
     Object.assign(button.style, {
       position: "absolute",
       top: "10px",
@@ -238,28 +238,39 @@ private createFooter(lastEntry: Record<string, any>): HTMLElement {
       cursor: "pointer",
     });
 
-    button.addEventListener("click", () =>{
-
+    button.addEventListener("click", () => {
       console.log(this.colors);
       openSettingsMenu({
-      colors: this.colors,
-      leaderboardsData: this.leaderboardsData,
-      leaderboardKey: this.leaderboardKey,
-      onApplyChanges: (selectedKey, newColors) => {
-        this.leaderboardKey = selectedKey;
-        this.colors = newColors;
-        this.constructLeaderBoard({
+        colors: this.colors,
+        leaderboardsData: this.leaderboardsData,
+        leaderboardKey: this.leaderboardKey,
+        onApplyChanges: (selectedKey, newColors) => {
+          this.leaderboardKey = selectedKey;
+          this.colors = newColors;
+          this.constructLeaderBoard({
+            id,
+            leaderboards: this.leaderboardsData,
+          });
+        },
+        onDelete: () => {
+          this.deleteLeaderBoard(id);
+        },
         id,
-        leaderboards: this.leaderboardsData,
-        });
-      },
-      id,
-      })
-    }
-    );
+      });
+    });
     return button;
   }
-  
+
+  // Deletes the leaderboard
+  private deleteLeaderBoard(id: string): void {
+    const container = this.iframeDocument.getElementById(id);
+    if (container) {
+      container.remove();
+      console.log(`Leaderboard with ID "${id}" deleted successfully.`);
+    } else {
+      console.error(`Leaderboard with ID "${id}" not found.`);
+    }
+  }
 }
 
 

@@ -94,6 +94,7 @@ export interface OpenSettingsMenuParams {
   leaderboardKey: string;
   onApplyChanges: (selectedKey: string, newColors: Record<string, string>) => void;
   id: string;
+  onDelete: () => void
 }
 
 export function openSettingsMenu({
@@ -101,6 +102,7 @@ export function openSettingsMenu({
   leaderboardsData,
   leaderboardKey,
   onApplyChanges,
+  onDelete, // New callback for deletion
   id,
 }: OpenSettingsMenuParams): void {
   const toolbar = document.getElementById("toolbar");
@@ -111,11 +113,22 @@ export function openSettingsMenu({
 
   const settingsContainer = document.createElement("div");
   settingsContainer.id = "leaderboard-settings";
-  settingsContainer.style.marginTop = "10px";
+  Object.assign(settingsContainer.style, {
+    marginTop: "10px",
+    padding: "15px",
+    borderRadius: "8px",
+    backgroundColor: "#34495E",
+    color: "#ECF0F1",
+    boxShadow: "0 2px 5px rgba(0, 0, 0, 0.2)",
+  });
 
   const settingsHeader = document.createElement("h3");
   settingsHeader.innerText = "Leaderboard Settings";
-  settingsHeader.style.color = "white";
+  Object.assign(settingsHeader.style, {
+    marginBottom: "15px",
+    fontSize: "18px",
+    textAlign: "center",
+  });
 
   settingsContainer.appendChild(settingsHeader);
 
@@ -156,8 +169,11 @@ export function openSettingsMenu({
 
   // Container for inputs
   const inputsContainer = document.createElement("div");
-  inputsContainer.style.display = "flex";
-  inputsContainer.style.flexDirection = "column";
+  Object.assign(inputsContainer.style, {
+    display: "flex",
+    flexDirection: "column",
+    gap: "10px",
+  });
 
   // Object to store input references
   const inputElements: Record<string, HTMLInputElement | HTMLSelectElement> = {};
@@ -166,21 +182,19 @@ export function openSettingsMenu({
   inputsConfig.forEach((inputConfig) => {
     const label = document.createElement("label");
     label.innerText = inputConfig.name;
-    label.style.marginTop = "5px";
-    label.style.color = "white";
+    label.style.color = "#ECF0F1";
 
     let input: HTMLInputElement | HTMLSelectElement;
 
     if (inputConfig.type === "select" && inputConfig.options) {
       input = document.createElement("select");
-      
+
       inputConfig.options.forEach((option) => {
         const optionElement = document.createElement("option");
         optionElement.value = option.value;
         optionElement.textContent = option.label;
         input.appendChild(optionElement);
       });
-      console.log(inputConfig.defaultValue)
       input.value = inputConfig.defaultValue;
     } else {
       input = document.createElement("input");
@@ -196,6 +210,15 @@ export function openSettingsMenu({
 
   // Leaderboard selection dropdown
   const selectLeaderBoard = document.createElement("select");
+  Object.assign(selectLeaderBoard.style, {
+    padding: "5px",
+    borderRadius: "4px",
+    backgroundColor: "#2C3E50",
+    color: "#ECF0F1",
+    border: "1px solid #2C3E50",
+    marginBottom: "10px",
+  });
+
   Object.entries(leaderboardsData).forEach(([key, board]) => {
     const option = document.createElement("option");
     option.value = key;
@@ -207,7 +230,24 @@ export function openSettingsMenu({
   // Apply changes button
   const applyButton = document.createElement("button");
   applyButton.textContent = "Apply Changes";
-  applyButton.style.marginTop = "10px";
+  Object.assign(applyButton.style, {
+    padding: "10px",
+    marginTop: "10px",
+    borderRadius: "4px",
+    backgroundColor: "#1ABC9C",
+    color: "#FFFFFF",
+    border: "none",
+    cursor: "pointer",
+    transition: "background-color 0.2s",
+  });
+
+  applyButton.addEventListener("mouseover", () => {
+    applyButton.style.backgroundColor = "#16A085";
+  });
+
+  applyButton.addEventListener("mouseout", () => {
+    applyButton.style.backgroundColor = "#1ABC9C";
+  });
 
   applyButton.addEventListener("click", () => {
     const newColors = {
@@ -221,10 +261,39 @@ export function openSettingsMenu({
     onApplyChanges(selectedKey, newColors);
   });
 
+  // Delete leaderboard button
+  const deleteButton = document.createElement("button");
+  deleteButton.textContent = "Delete Leaderboard";
+  Object.assign(deleteButton.style, {
+    padding: "10px",
+    marginTop: "10px",
+    borderRadius: "4px",
+    backgroundColor: "#e74c3c",
+    color: "#FFFFFF",
+    border: "none",
+    cursor: "pointer",
+    transition: "background-color 0.2s",
+  });
+
+  deleteButton.addEventListener("mouseover", () => {
+    deleteButton.style.backgroundColor = "#c0392b";
+  });
+
+  deleteButton.addEventListener("mouseout", () => {
+    deleteButton.style.backgroundColor = "#e74c3c";
+  });
+
+  deleteButton.addEventListener("click", () => {
+    if (onDelete) {
+      onDelete();
+    }
+  });
+
   // Append elements to settings container
   settingsContainer.appendChild(selectLeaderBoard);
   settingsContainer.appendChild(inputsContainer);
   settingsContainer.appendChild(applyButton);
+  settingsContainer.appendChild(deleteButton);
 
   // Append settings container to toolbar
   toolbar.appendChild(settingsContainer);
