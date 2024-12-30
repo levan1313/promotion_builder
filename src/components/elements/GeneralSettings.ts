@@ -86,6 +86,10 @@ export function createGeneralSettings(options: GeneralSettingsProps): HTMLElemen
     gapValueDisplay.innerText = "0px";
     gapValueDisplay.style.color = "#fff";
 
+    // colors
+
+    const { colorsContainer, inputs } = createColorsContainer();
+
     // Update gap dynamically
     gapSlider.addEventListener("input", (event: Event) => {
         const target = event.target as HTMLInputElement;
@@ -146,7 +150,75 @@ export function createGeneralSettings(options: GeneralSettingsProps): HTMLElemen
     form.appendChild(gapLabel);
     form.appendChild(gapSliderContainer);
 
+    form.appendChild(colorsContainer);
+
     container.appendChild(form);
 
     return container;
 }
+
+
+// Function to create a labeled color input
+function createColorInput({ labelText, defaultValue }:{labelText: string, defaultValue: string}) {
+    const container = document.createElement("div");
+    container.style.display = "flex";
+    container.style.alignItems = "center";
+    container.style.gap = "10px";
+  
+    const label = document.createElement("label");
+    label.innerText = labelText;
+    label.style.color = "#fff";
+    label.style.flex = "1";
+  
+    const input = document.createElement("input");
+    input.type = "color";
+    input.value = defaultValue;
+    input.style.width = "50px";
+    input.style.height = "30px";
+    input.style.border = "none";
+    input.style.cursor = "pointer";
+  
+    container.appendChild(label);
+    container.appendChild(input);
+  
+    return { container, input };
+  }
+  
+  // Function to create the colors container
+  function createColorsContainer() {
+    const colorsContainer = document.createElement("div");
+    colorsContainer.style.display = "flex";
+    colorsContainer.style.flexDirection = "column";
+    colorsContainer.style.gap = "15px";
+    colorsContainer.style.padding = "10px";
+    colorsContainer.style.borderRadius = "8px";
+    colorsContainer.style.backgroundColor = "#2C3E50";
+  
+    const colorsContainerHeading = document.createElement("h3");
+    colorsContainerHeading.innerText = "Colors";
+    colorsContainerHeading.style.color = "#fff";
+    colorsContainerHeading.style.marginBottom = "10px";
+    colorsContainerHeading.style.textAlign = "center";
+    colorsContainer.appendChild(colorsContainerHeading);
+  
+    // Create individual color inputs
+    const primaryColorInput = createColorInput({
+      labelText: "Primary Color",
+      defaultValue: "#000000",
+    });
+    const secondaryColorInput = createColorInput({
+      labelText: "Secondary Color",
+      defaultValue: "#ffffff",
+    });
+    const baseColorInput = createColorInput({
+      labelText: "Base Color",
+      defaultValue: "#f0f0f0",
+    });
+  
+    // Append inputs to the container
+    colorsContainer.appendChild(primaryColorInput.container);
+    colorsContainer.appendChild(secondaryColorInput.container);
+    colorsContainer.appendChild(baseColorInput.container);
+  
+    return { colorsContainer, inputs: { primaryColorInput, secondaryColorInput, baseColorInput } };
+  }
